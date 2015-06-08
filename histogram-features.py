@@ -75,7 +75,7 @@ if __name__ == "__main__":
         reduced = json_values.mapValues(lambda cluster: aggregate_feature(cluster, feature_name))
         json_values = reduced
 
-    json_values.saveAsSequenceFile(outputFilename)
+    json_values.mapValues(lambda cluster: json.dumps(cluster)).saveAsSequenceFile(outputFilename)
 
 
 
