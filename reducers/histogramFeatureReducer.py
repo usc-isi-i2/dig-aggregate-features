@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 
-from reducers.featureReducer import FeatureReducer
+from reducers.featureReducerInterface import FeatureReducerInterface
 
 
-class HistogramFeatureReducer(FeatureReducer):
+class HistogramFeatureReducer(FeatureReducerInterface):
 
     features = []
     def __init__(self):

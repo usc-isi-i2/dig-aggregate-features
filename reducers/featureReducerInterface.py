@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 
-class FeatureReducer:
+class FeatureReducerInterface:
 
     def __init__(self):
         pass
