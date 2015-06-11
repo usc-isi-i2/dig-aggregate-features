@@ -25,7 +25,7 @@ def aggregate_features(cluster, reducer_feature_names):
         (reducer_name, feature_name) = reducer_feature_name.split(":", 2)
         reducer = ReducerFactory.get_reducer(reducer_name)
         features = parser.get_features(feature_name)
-        print "aggregate feature:", feature_name, ", reducer:", reducer_name + ", num:", len(features)
+        #print "aggregate feature:", feature_name, ", reducer:", reducer_name + ", num:", len(features)
         if len(features) > 0:
             reducer.add_values(features)
             agg_feature = reducer.get_aggregate_feature(feature_name)
