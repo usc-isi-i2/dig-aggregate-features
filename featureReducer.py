@@ -30,7 +30,10 @@ def aggregate_features(cluster, reducer_feature_names):
             reducer.add_values(features)
             agg_feature = reducer.get_aggregate_feature(feature_name)
             if agg_feature:
-                agg_feature_name = agg_feature["featureName"]
+                if not isinstance(agg_feature, list):
+                    agg_feature_name = agg_feature["featureName"]
+                else:
+                    agg_feature_name = agg_feature[0]["featureName"]
                 fc[agg_feature_name + "_feature"] = agg_feature
     return cluster
 

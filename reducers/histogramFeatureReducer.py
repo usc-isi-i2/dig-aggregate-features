@@ -6,6 +6,7 @@ from reducers.featureReducerInterface import FeatureReducerInterface
 class HistogramFeatureReducer(FeatureReducerInterface):
 
     features = []
+
     def __init__(self):
         del self.features[:]
         pass
@@ -13,7 +14,7 @@ class HistogramFeatureReducer(FeatureReducerInterface):
     def add_value(self, feature):
         self.features.append(feature)
 
-    def get_features(self):
+    def get_aggregate_feature(self, feature_name):
         agg_features = []
 
         value_map = {}
@@ -27,16 +28,11 @@ class HistogramFeatureReducer(FeatureReducerInterface):
 
         for value in value_map:
             count = value_map[value]
-            feature = {"featureValue": value, "count": count}
+            feature = {"featureValue": value,
+                       "count": count,
+                       "featureName": feature_name + "_histogram",
+                       "a": "Feature"}
             agg_features.append(feature)
 
-        return agg_features
-
-    def get_aggregate_feature(self, feature_name):
-        features = self.get_features()
-        agg_feature = dict()
-        agg_feature["featureName"] = feature_name + "_histogram"
-        agg_feature["a"] = "Feature"
-        agg_feature["featureObject"] = features
-        return agg_feature
+        return sorted(agg_features, key=lambda k: k['count'], reverse=True)
 
