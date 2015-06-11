@@ -32,3 +32,11 @@ class HistogramFeatureReducer(FeatureReducerInterface):
 
         return agg_features
 
+    def get_aggregate_feature(self, feature_name):
+        features = self.get_features()
+        agg_feature = dict()
+        agg_feature["featureName"] = feature_name + "_histogram"
+        agg_feature["a"] = "Feature"
+        agg_feature["featureObject"] = features
+        return agg_feature
+
