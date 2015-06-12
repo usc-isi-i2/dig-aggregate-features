@@ -4,6 +4,8 @@ import sys
 import json
 from reducers.reducerFactory import ReducerFactory
 from features.featureParser import FeatureParser
+from utils import util
+from datetime import datetime
 
 from pyspark import SparkContext
 
@@ -37,6 +39,27 @@ def aggregate_features(cluster, reducer_feature_names):
                 fc[agg_feature_name + "_feature"] = agg_feature
     return cluster
 
+
+def get_sorted_cluster(cluster):
+    if "hasPost" in cluster:
+        posts = util.to_list(cluster["hasPost"])
+        posts = sorted(posts, key=lambda k: get_post_date(k))
+        cluster["hasPost"] = posts
+    return json.dumps(cluster)
+
+
+def get_post_date(post):
+    if "dateCreated" in post:
+        date_str = post["dateCreated"]
+    else:
+        date_str = "1900-01-01T01:00:00"
+    try:
+        return util.parse_iso_date(date_str)
+    except:
+         sys.stderr.write("\nError parsing date:" + date_str)
+    return datetime.today()
+
+
 if __name__ == "__main__":
     """
         Usage: featureReducer.py [input] [output] [reducer:feature_name]...
@@ -52,7 +75,8 @@ if __name__ == "__main__":
     aggregations = sys.argv[3:]
     if len(aggregations) > 0:
         result = json_values.mapValues(lambda cluster: aggregate_features(cluster, aggregations))
-    result.mapValues(lambda cluster: json.dumps(cluster)).saveAsSequenceFile(outputFilename)
+
+    result.mapValues(lambda cluster: get_sorted_cluster(cluster)).saveAsSequenceFile(outputFilename)
 
 
 

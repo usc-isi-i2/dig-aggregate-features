@@ -1,14 +1,16 @@
 #!/usr/bin/env python
 
 from reducers.featureReducerInterface import FeatureReducerInterface
-from datetime import datetime
+from utils import util
 import sys
+
 
 class DateFeatureReducer(FeatureReducerInterface):
 
     features = []
     min_date = None
     max_date = None
+
     def __init__(self):
         del self.features[:]
         pass
@@ -16,8 +18,7 @@ class DateFeatureReducer(FeatureReducerInterface):
     def add_value(self, feature):
         feature_date = feature["featureValue"]
         try:
-            #2014-09-08T00:00:00
-            date = datetime.strptime(feature_date, "%Y-%m-%dT%H:%M:%S")
+            date = util.parse_iso_date(feature_date)
             if self.min_date is None:
                 self.min_date = date
             elif self.min_date > date:

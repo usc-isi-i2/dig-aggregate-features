@@ -1,7 +1,7 @@
 Running the Aggregator
 --------------------------------
 {code}
-zip -r reducers.zip reducers features
+zip -r reducers.zip reducers features utils
 {code}
 
 The program to run is: featureReducer.py. It takes as argument the location of the data and aggregator:featureName
