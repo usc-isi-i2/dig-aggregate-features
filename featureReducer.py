@@ -72,7 +72,7 @@ if __name__ == "__main__":
     if len(aggregations) > 0:
         result = json_values.mapValues(lambda cluster: aggregate_features(cluster, aggregations))
 
-    result.mapValues(lambda cluster: threadUtil.get_sorted_cluster(cluster)).saveAsTextFile(outputFilename)
+    result.mapValues(lambda cluster: threadUtil.get_sorted_cluster(cluster)).saveAsSequenceFile(outputFilename)
 
 
 
