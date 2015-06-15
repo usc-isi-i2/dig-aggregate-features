@@ -4,12 +4,19 @@ from utils import util
 
 
 class FeatureParser:
-    def __init__(self, json):
+    def __init__(self, json, feature_name_filter):
         self.features = dict()
-        self.__parse(json)
+        self.fc = dict()
+        self.__parse(json, feature_name_filter)
         pass
 
-    def __parse(self, cluster):
+    def __parse(self, cluster, feature_name_filter):
+
+        if "hasFeatureCollection" in cluster:
+            self.fc = cluster["hasFeatureCollection"]
+        else:
+            cluster["hasFeatureCollection"] = self.fc
+
         if "hasPost" in cluster:
             posts = util.to_list(cluster["hasPost"])
             for post in posts:
@@ -23,6 +30,10 @@ class FeatureParser:
                                 # print "Got feature:", feature
                                 if "featureName" in feature:
                                     feature_name = feature["featureName"]
+                                    if feature_name_filter:
+                                        if feature_name_filter != feature_name:
+                                            continue
+
                                     arr = []
                                     if feature_name in self.features:
                                         arr = self.features[feature_name]
@@ -34,3 +45,6 @@ class FeatureParser:
         if feature_name in self.features:
             return self.features[feature_name]
         return []
+
+    def get_cluster_feature_collection(self):
+        return self.fc
