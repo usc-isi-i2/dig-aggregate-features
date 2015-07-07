@@ -19,7 +19,7 @@ class HistogramFeatureReducer(FeatureReducerInterface):
 
         value_map = {}
         for feature in self.features:
-            value = feature["featureValue"]
+            value = feature
             count = 0
             if value_map.has_key(value):
                 count = value_map[value]
@@ -28,10 +28,10 @@ class HistogramFeatureReducer(FeatureReducerInterface):
 
         for value in value_map:
             count = value_map[value]
-            feature = {"featureValue": value,
+            feature = {"value": value,
                        "count": count,
-                       "featureName": feature_name + "_histogram",
-                       "a": "Feature"}
+                       "name": feature_name + "_histogram",
+                       "a": "AggregatedFeature"}
             agg_features.append(feature)
 
         return sorted(agg_features, key=lambda k: k['count'], reverse=True)

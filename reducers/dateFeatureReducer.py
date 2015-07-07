@@ -16,7 +16,7 @@ class DateFeatureReducer(FeatureReducerInterface):
         pass
 
     def add_value(self, feature):
-        feature_date = feature["featureValue"]
+        feature_date = feature
         try:
             date = util.parse_iso_date(feature_date)
             if self.min_date is None:
@@ -45,7 +45,7 @@ class DateFeatureReducer(FeatureReducerInterface):
         if self.min_date != self.max_date:
             feature_value = feature_value + " TO " + self.max_date.isoformat()
         agg_feature = dict()
-        agg_feature["featureName"] = feature_name + "_aggregated"
-        agg_feature["a"] = "Feature"
-        agg_feature["featureValue"] = feature_value
+        agg_feature["name"] = feature_name + "_aggregated"
+        agg_feature["a"] = "AggregatedFeature"
+        agg_feature["value"] = feature_value
         return agg_feature

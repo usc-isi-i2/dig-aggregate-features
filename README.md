@@ -8,7 +8,7 @@ The program to run is: <code>featureReducer.py</code>.
 
 ```
 ./bin/spark-submit --py-files reducers.zip featureReducer.py \
-      <input folder> <output folder> [<aggregation>:<featureName> ...]
+      <input folder> <output folder> <child attribute name> [<aggregation>:<featureName> ...]
 ```
 
 Example Invocation:
@@ -18,9 +18,9 @@ Example Invocation:
     --master local[*] \
     --py-files ~/github/dig-aggregate-features/reducers.zip \
     ~/github/dig-aggregate-features/featureReducer.py \
-    hdfs://memex-nn1:8020/user/worker/process/atf/dev04/evolution-forums/user/part-r-00020 \
-    hdfs://memex-nn1:8020/user/worker/aggregate-features/histogram_date_02 \
-    histogram:fromUser date:enrollment_date
+    hdfs://memex-nn1:8020/user/worker/process/atf/dev11/evolution-forums/main/part-r-00000 \
+    hdfs://memex-nn1:8020/user/worker/aggregate-features/v2_4 \
+    hasPost date:dateCreated histogram:author.name
 ```
 
 Available aggregators:
